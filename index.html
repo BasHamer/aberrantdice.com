@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141497955-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-141497955-1');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:500|Source+Sans+Pro:400,900i&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+  <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/random-js/1.0.8/random.min.js"></script>
+  <script src="diceroller.js"></script>
+
+  <script>
+    $(function() {
+        diceRoller.init("/diceroller.html");
+    });
+</script>
+
+  <title>Aberrant Dice Roller</title>
+</head>zs
+<body> 
+    <diceroller></diceroller>
+</body>
+</html>
