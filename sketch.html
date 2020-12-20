@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <link href="dice.css" rel="stylesheet">
+
+    <title>Aberrant Dice Roller</title>
+</head>
+
+<body>
+    <h1>Aberrant Dice Roller</h1>
+
+    <div class="container">
+        <div class="accordion" id="settings-container">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="settings">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Settings
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="settings"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" placeholder="1000 is 1 second"
+                                aria-label="basic dice" aria-describedby="basic-dice">
+                            <span class="input-group-text" id="basic-dice">ms</span>
+                            <input type="number" class="form-control" placeholder="0-1" aria-label="mega dice"
+                                aria-describedby="mega-dice">
+                            <span class="input-group-text" id="mega-dice">shift</span>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-text">
+                                <input class="form-check-input" type="checkbox" value=""
+                                    aria-label="Checkbox for drama">
+                            </div>
+                            <span class="input-group-text" id="drama-enable">drama is triggered</span>
+                            <input type="number" class="form-control" aria-label="drama trigger rate">
+                            <span class="input-group-text" id="drama-rate">% of the time</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <h2>Roll Settings</h2>
+    <div class="container">
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="normal dice pool" aria-label="basic dice"
+                aria-describedby="basic-dice">
+            <span class="input-group-text" id="basic-dice">Normal Pool</span>
+            <input type="number" class="form-control" placeholder="mega dice pool" aria-label="mega dice"
+                aria-describedby="mega-dice">
+            <span class="input-group-text" id="mega-dice">Mega Pool</span>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-text">
+                <input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for trait">
+            </div>
+            <span class="input-group-text" id="mega-dice">trait</span>
+            <input type="text" class="form-control" aria-label="Text input with checkbox">
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="probably 7" aria-label="target number"
+                aria-describedby="target-number">
+            <span class="input-group-text" id="target-number">Target Number</span>
+            <input type="number" class="form-control" placeholder="hopefully 1" aria-label="difficulty"
+                aria-describedby="difficulty">
+            <span class="input-group-text" id="difficulty">Difficulty</span>
+        </div>
+    </div>
+
+
+    <h2>Roll</h2>
+    <div class="container">
+        <div class="row row-cols-auto g-4  justify-content-start">
+            <div class="col">
+                <div class="roll mega container">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="roll mega container">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="roll botch container"><span>1</span></div>
+            </div>
+            <div class="col">
+                <div class="roll container"><span>2</span></div>
+            </div>
+            <div class="col">
+                <div class="roll container"><span>3</span></div>
+            </div>
+            <div class="col">
+                <div class="roll container"><span>4</span></div>
+            </div>
+            <div class="col">
+                <div class="roll container"><span>5</span></div>
+            </div>
+            <div class="col">
+                <div class="roll container"><span>6</span></div>
+            </div>
+            <div class="col">
+                <div class="roll container"><span>7</span></div>
+            </div>
+            <div class="col">
+                <div class="roll success container"><span>8</span></div>
+            </div>
+            <div class="col">
+                <div class="roll container"><span>9</span></div>
+            </div>
+            <div class="col">
+                <div class="roll container"><span>10</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega botch container"><span>1</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega container"><span>2</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega container"><span>3</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega container"><span>4</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega container"><span>5</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega container"><span>6</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega container"><span>7</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega success container"><span>8</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega container"><span>9</span></div>
+            </div>
+            <div class="col">
+                <div class="roll mega container"><span>10</span></div>
+            </div>
+        </div>
+    </div>
+
+
+    <h2>Past rolls</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="container">
+                    <div class="row">
+                        Pool 10/3
+                    </div>
+                    <div class="row">
+                        TN:7 Difficulty:1
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                1, 2, 3, 4, 5, 6, 7, 8, 9, <strong>10</strong> 
+            </div>
+            <div class="col-3">
+                Success 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                Pool 10/3
+            </div>
+            <div class="col-sm">
+                TN:7 Difficulty:1
+            </div>
+            <div class="col-sm">
+                Botch 
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+    <!--
+        SAVE
+                <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    -->
+
+</body>
+
+</html>
