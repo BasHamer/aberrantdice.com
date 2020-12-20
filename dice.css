@@ -1,0 +1,26 @@
+.roll{
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 0.5em;
+    border-width: 0.2em;
+    border-color: grey;
+    border-style: double;
+    font-size: 1.75rem;
+    padding-top: 1.3rem;
+}
+.roll span{
+    margin: auto;
+    text-align: center;
+}
+.roll.mega{
+    font-size: 1.5rem;
+    border-style: solid;
+}
+.roll.success{
+    color: green;
+    font-weight: bolder;
+}
+.roll.botch{
+    color: red;
+    font-weight: bolder;
+}
