@@ -1,13 +1,10 @@
-const engine = MersenneTwister19937.autoSeed();
-const distribution = integer(1,10);
-const bellHelper = real(0, 1, true);
-const skew = 2;
+
 
 //https://stackoverflow.com/questions/25582882/javascript-math-random-normal-distribution-gaussian-bell-curve/36481059#36481059
 function bellRandom(min, max, skew) {
     let u = 0, v = 0;
-    while(u === 0) u = bellHelper(engine); //Converting [0,1) to (0,1)
-    while(v === 0) v = bellHelper(engine);
+    while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+    while(v === 0) v = Math.random();
     let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
 
     num = num / 10.0 + 0.5; // Translate to 0 -> 1
@@ -25,7 +22,7 @@ Array.prototype.insert = function ( index, item ) {
 var diceRoller = {};
 
 diceRoller.rollDie = function(die){
-    die.roll = distribution(engine);
+    die.roll = Math.floor(Math.random() * (maximum - minimum));
 };
 
 diceRoller.evaluateDie = function(currentRoll, die){
@@ -53,7 +50,9 @@ diceRoller.createNewRoll = function(dataModel){
 }
 
 diceRoller.init = function(config){
-    if($("diceRoller")){
+    const skew = 2;
+
+    if($("diceroller")){
         $.ajax({
             url: config??"https://aberrantdice.com/diceroller.html"
         }).then(function(data) {
