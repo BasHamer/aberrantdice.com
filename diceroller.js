@@ -34,13 +34,14 @@ diceRoller.evaluateDie = function(dataModel, die){
         if(dataModel.currentRoll.rollConfig.qualityActive && die.roll == 10){
             dataModel.currentRoll.dice.push(diceRoller.addDie(dataModel, die.isMega));
         }
+        die.evaluated = true;
         diceRoller.evaluateRoll(dataModel);
     });
 };
 
 diceRoller.evaluateRoll = function(dataModel){
     function notRevealed(die) {
-        return !die.revealed;
+        return !die.evaluated;
       };
     if(dataModel.currentRoll.dice.find(notRevealed)){
         return;
@@ -75,6 +76,7 @@ diceRoller.addDie = function(dataModel, isMega){
     isBotch: false,
     isSuccess: false,
     revealed: false,
+    evaluated: false,
   };
 
   diceRoller.rollDie(die);
