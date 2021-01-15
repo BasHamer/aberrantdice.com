@@ -27,14 +27,21 @@ diceRoller.rollDie = function(die){
 
 diceRoller.evaluateDie = function(dataModel, die){
     die.revealed = true;
-    var delay = new Promise(resolve => setTimeout(resolve, 100));
+    var delay = new Promise(resolve => setTimeout(resolve, 800));
     delay.then(function(data){
-        die.isSuccess = die.roll >= dataModel.currentRoll.targetNumber;
-        die.isBotch = die.roll >= dataModel.currentRoll.botchTeshhold;
+        die.isSuccess = die.roll >= dataModel.currentRoll.rollConfig.targetNumber;
+        die.isBotch = die.roll <= dataModel.currentRoll.rollConfig.botchTeshhold;
         if(dataModel.currentRoll.rollConfig.qualityActive && die.roll == 10){
             diceRoller.addDie(dataModel, die.isMega);
         }
+        diceRoller.evaluateRoll(dataModel);
     });
+};
+
+diceRoller.evaluateRoll = function(dataModel){
+
+    
+    dataModel.currentRoll.revealed = true;
 };
 
 diceRoller.addDie = function(dataModel, isMega){
@@ -58,6 +65,9 @@ diceRoller.addDie = function(dataModel, isMega){
 };
 
 diceRoller.createNewRoll = function(dataModel){
+    if(dataModel.currentRoll?.revealed == false){
+        return;
+    }
     if(dataModel.currentRoll != null){
         dataModel.rollLog.insert(0,dataModel.currentRoll);
     }
