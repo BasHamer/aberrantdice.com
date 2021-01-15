@@ -24,3 +24,12 @@
     color: red;
     font-weight: bolder;
 }
+
+.result.success{
+    color: green;
+    font-weight: bolder;
+}
+.result.botch{
+    color: red;
+    font-weight: bolder;
+}

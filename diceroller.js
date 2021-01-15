@@ -32,15 +32,40 @@ diceRoller.evaluateDie = function(dataModel, die){
         die.isSuccess = die.roll >= dataModel.currentRoll.rollConfig.targetNumber;
         die.isBotch = die.roll <= dataModel.currentRoll.rollConfig.botchTeshhold;
         if(dataModel.currentRoll.rollConfig.qualityActive && die.roll == 10){
-            diceRoller.addDie(dataModel, die.isMega);
+            dataModel.currentRoll.dice.push(diceRoller.addDie(dataModel, die.isMega));
         }
         diceRoller.evaluateRoll(dataModel);
     });
 };
 
 diceRoller.evaluateRoll = function(dataModel){
+    function notRevealed(die) {
+        return !die.revealed;
+      };
+    if(dataModel.currentRoll.dice.find(notRevealed)){
+        return;
+    }
+    var botched = false;
+    var successes = 0;
+    dataModel.currentRoll.dice.forEach(die=>{
+        if(die.isBotch && !botched){
+            botched = true;
+        }
+        if(die.isSuccess){
+            if(die.isMega){
+                successes+=2;
+                if(die.roll==10){
+                    successes+=1;
+                }
+            }else{
+                successes+=1;
+            }
+        }
+    });  
 
-    
+    dataModel.currentRoll.isSuccess = successes>=dataModel.currentRoll.rollConfig.difficulty;
+    dataModel.currentRoll.successes = successes;
+    dataModel.currentRoll.isBotch=(botched && dataModel.currentRoll.successes==0);
     dataModel.currentRoll.revealed = true;
 };
 
@@ -75,8 +100,9 @@ diceRoller.createNewRoll = function(dataModel){
     dataModel.currentRoll={
         dice:[],
         successes:0,
-        botch:false,
-        revealed:false,
+        isBotch: false,
+        isSuccess: false,
+        revealed: false,
         rollConfig:{ ... dataModel.rollConfig}
     };
 
@@ -92,6 +118,14 @@ diceRoller.createNewRoll = function(dataModel){
         var d = die;
         
     });
+}
+
+diceRoller.reroll = function(dataModel){
+    if(dataModel.currentRoll?.revealed == false){
+        return;
+    }
+
+
 }
 
 diceRoller.init = function(config){
@@ -168,6 +202,9 @@ diceRoller.init = function(config){
                 methods:{
                     rollDice: function() {
                         diceRoller.createNewRoll(dataModel);
+                    },
+                    rerollDice: function() {
+                        diceRoller.reroll(dataModel);
                     }
                 }
             });

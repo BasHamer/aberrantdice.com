@@ -78,6 +78,9 @@
     <button 
         v-on:click="rollDice"
         >Roll</button>
+    <button 
+        v-on:click="rerollDice"
+        >Reroll</button>
 
     <h2>Roll</h2>
     <div class="container">
@@ -89,7 +92,19 @@
         </div>
     </div>
 
-
+    <div class="container" v-if="currentRoll?.revealed">
+        <div class="input-group mb-3 result success" v-if="currentRoll.isSuccess">
+            <h1>Success</h1>
+        </div>
+        <div class="input-group mb-3 result" v-if="!currentRoll.isBotch">
+            <input type="number" class="form-control" placeholder="successes" aria-label="successes" enabled="false"
+                aria-describedby="successes" v-model="currentRoll.successes">
+            <span class="input-group-text" id="successes">Successes</span>
+        </div>
+        <div class="input-group mb-3 result botch" v-if="currentRoll.isBotch">
+            <h1>Botch</h1>
+        </div>
+    </div>
 
     <h2>Past rolls</h2>
     <div class="container">
