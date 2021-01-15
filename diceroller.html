@@ -93,13 +93,16 @@
         <div class="input-group mb-3 result success" v-if="currentRoll.isSuccess">
             <h1>Success</h1>
         </div>
-        <div class="input-group mb-3 result" v-if="!currentRoll.isBotch">
-            <input type="number" class="form-control" placeholder="successes" aria-label="successes" enabled="false"
-                aria-describedby="successes" v-model="currentRoll.successes">
-            <span class="input-group-text" id="successes">Successes</span>
-        </div>
         <div class="input-group mb-3 result botch" v-if="currentRoll.isBotch">
             <h1>Botch</h1>
+        </div>
+        <div class="input-group mb-3 result" v-if="!currentRoll.isBotch&&!currentRoll.isSuccess">
+            <h1>Failure</h1>
+        </div>
+        <div class="input-group mb-3 result" v-if="currentRoll.isSuccess">
+            <input type="number" class="form-control" placeholder="successes" aria-label="successes" enabled="false"
+                aria-describedby="successes" v-model="currentRoll.successes">
+            <span class="input-group-text" id="successes">Excess Successes</span>
         </div>
     </div>
 
