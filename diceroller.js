@@ -22,31 +22,66 @@ Array.prototype.insert = function ( index, item ) {
 var diceRoller = {};
 
 diceRoller.rollDie = function(die){
-    die.roll = Math.floor(Math.random() * (maximum - minimum));
+    die.roll = Math.floor(Math.random() * (10))+1;
 };
 
-diceRoller.evaluateDie = function(currentRoll, die){
-    die.successes = die.roll >= currentRoll.targetNumber;
-    if(qualityActive && die.roll == 10){
-        diceRoller.addDie(currentRoll, die.isMega);
-    }
+diceRoller.evaluateDie = function(dataModel, die){
+    die.revealed = true;
+    var delay = new Promise(resolve => setTimeout(resolve, 100));
+    delay.then(function(data){
+        die.isSuccess = die.roll >= dataModel.currentRoll.targetNumber;
+        die.isBotch = die.roll >= dataModel.currentRoll.botchTeshhold;
+        if(dataModel.currentRoll.rollConfig.qualityActive && die.roll == 10){
+            diceRoller.addDie(dataModel, die.isMega);
+        }
+    });
 };
 
-diceRoller.addDie = function(currentRoll, isMega){
+diceRoller.addDie = function(dataModel, isMega){
+  var die = {
+    isMega: isMega,
+    isBotch: false,
+    isSuccess: false,
+    revealed: false,
+  };
 
+  diceRoller.rollDie(die);
+
+  //var rollDuration = bellRandom(1, dataModel.settings.duration, dataModel.settings.shift)
+  var rollDuration =  Math.floor(Math.random() * (dataModel.settings.duration))+1
+  var delay = new Promise(resolve => setTimeout(resolve, rollDuration));
+  delay.then(function(data){
+      diceRoller.evaluateDie(dataModel, die);
+  });
+
+  return die
 };
 
 diceRoller.createNewRoll = function(dataModel){
     if(dataModel.currentRoll != null){
-        dataModel.rollLog.insert(0,rurrentRoll);
+        dataModel.rollLog.insert(0,dataModel.currentRoll);
     }
 
     dataModel.currentRoll={
         dice:[],
         successes:0,
         botch:false,
-        revealed:true
+        revealed:false,
+        rollConfig:{ ... dataModel.rollConfig}
     };
+
+    for(var i =0; i< dataModel.rollConfig.megaDicePool; i++){
+        dataModel.currentRoll.dice.push(diceRoller.addDie(dataModel, true));
+    }
+
+    for(var i =0; i< dataModel.rollConfig.normalDicePool; i++){
+        dataModel.currentRoll.dice.push(diceRoller.addDie(dataModel, false));
+    }
+
+    dataModel.currentRoll.dice.forEach(die => {
+        var d = die;
+        
+    });
 }
 
 diceRoller.init = function(config){
@@ -59,36 +94,63 @@ diceRoller.init = function(config){
             $("diceroller").html(data);
 
             var dataModel = {
-                normalDicePool:4,
-                megaDicePool:1,
-                difficulty:1,
-                targetNumber:7,
-                qualityActive:false,
-                drama:true,
+                settings:{
+                    drama:true,
+                    duration: 1500,
+                    shift: 0.1,
+                    dramapTriggerPrcentage:50
+                },
+                rollConfig:{
+                    normalDicePool:4,
+                    megaDicePool:1,
+                    difficulty:1,
+                    targetNumber:7,
+                    botchTeshhold:1,
+                    qualityActive:false,
+                    quality:""
+                },
                 currentRoll:null,
                 rollLog:[]
             };
 
-            Vue.component('comment-view',{
-                props: ['comment'], 
+            Vue.component('die-view',{
+                props: ['die'], 
                 template: `
-                <div class="comment">
-                    <h4 class="comment-title">
-						<span>
-                            <a class="comment-author" v-bind:href="comment.user.html_url" target="_blank">
-                                {{comment.user.login}}
-                            </a> 
-                            commented 
-                		    <a class="comment-date" v-bind:href="comment.html_url" target="_blank">
-                			    <time v-bind:datetime="comment.created_at">on {{comment.created_at_local}}</time>
-                		    </a>
-                		</span>
-            		</h4>
-                    <div class="comment-body">
-                        {{comment.body}} 
+                <div class="col">
+                    <div 
+                    class="roll container"
+                    v-bind:class="{ mega: die.isMega, botch: die.isBotch, success: die.isSuccess }"
+                    >
+                        <div v-if="!die.revealed" class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span v-if="die.revealed">{{die.roll}}</span>
                     </div>
                 </div>`
                 });
+
+                Vue.component('roll-view',{
+                    props: ['roll'], 
+                    template: `
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="container">
+                                <div class="row">
+                                    Pool 10/3
+                                </div>
+                                <div class="row">
+                                    TN:7 Difficulty:1
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            1, 2, 3, 4, 5, 6, 7, 8, 9, <strong>10</strong> 
+                        </div>
+                        <div class="col-3">
+                            Success 
+                        </div>
+                    </div>`
+                    });
             
             var app = new Vue({
                 el: '#dice-roller-app',

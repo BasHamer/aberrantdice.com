@@ -2,74 +2,101 @@
     want this on your site? check it out at https://feedback-on-github.possumlabs.com/
 </info>
 <div id="dice-roller-app">
-    <section >
-        <h2 >
-            Feedback
-        </h2>
-        <div class="feedback-content">
-            <div>
-                <p >
-                    Send feedback about
-                </p>
-                <div>
-                    <a class="button" v-bind:href="projectFeedbackUrl"   target="_blank">
-                        <span >
-                            This project</span>
-                        <span class="iconify" data-icon="mdi-exit-to-app" data-inline="false"></span></a>
+    <div class="container">
+        <div class="accordion" id="settings-container">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="settings">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Settings
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="settings"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" placeholder="1000 is 1 second"
+                                aria-label="basic dice" aria-describedby="basic-dice" v-model="settings.duration">
+                            <span class="input-group-text" id="basic-dice">ms</span>
+                            <input type="number" class="form-control" placeholder="0-1" aria-label="mega dice"
+                                aria-describedby="mega-dice" v-model="settings.shift">
+                            <span class="input-group-text" id="mega-dice">shift</span>
+                        </div>
 
-                    <a class="button" v-bind:href="pageFeedbackUrl"   target="_blank">
-                        <span >
-                            This page</span>
-                        <span class="iconify" data-icon="mdi-exit-to-app" data-inline="false"></span></a>
-
-
-                    <p>
-                        You may leave feedback directly on
-                        <a target="_blank" v-bind:href="githubFeedbackUrl" >
-                            GitHub<span class="iconify" data-icon="mdi-github" data-inline="false"></span></a>.
-                    </p>
-                </div>
-            </div>
-            <div>
-
-                <ul role="tablist">
-                    <li class="tab" v-bind:class="{ active: viewOpen }" >
-                        <button data-toggle="tab" role="tab"
-                            aria-controls="open-issues"
-                            v-on:click="viewOpenClick"
-                            >Open ({{openCount}})</button>
-                    </li>
-                    <li  v-bind:class="{ active: viewClosed }" >
-                        <button   data-toggle="tab" role="tab"
-                            aria-controls="closed-issues"
-                            v-on:click="viewClosedClick"
-                            >Closed ({{closedCount}})</button>
-                    </li>
-                </ul>
-                <div  >
-                    <div class="tab" role="tabpanel"
-                        v-if="viewOpen"
-                        aria-labelledby="open-issues-tab">
-
-                        <issue-view
-                            v-for="issue in openIssues"
-                            v-bind:issue="issue"
-                            v-on:toggle-commnets="expandIssueClick($event)"
-                            ></issue-view>
-                    </div>
-                    <div role="tabpanel" 
-                        v-if="viewClosed"
-                        aria-labelledby="closed-issues-tab">
-
-                        <issue-view
-                        v-for="issue in closedIssues"
-                        v-bind:issue="issue"
-                        v-on:toggle-commnets="expandIssueClick($event)"
-                        ></issue-view>
-
+                        <div class="input-group mb-3">
+                            <div class="input-group-text">
+                                <input class="form-check-input" type="checkbox" value=""
+                                    aria-label="Checkbox for drama" v-model="settings.drama">
+                            </div>
+                            <span class="input-group-text" id="drama-enable">drama is triggered</span>
+                            <input type="number" class="form-control" aria-label="drama trigger rate" v-model="settings.dramapTriggerPrcentage">
+                            <span class="input-group-text" id="drama-rate">% of the time</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
-    </section>
+    </div>
+
+
+    <h2>Roll Settings</h2>
+    <div class="container">
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="normal dice pool" aria-label="basic dice"
+                aria-describedby="basic-dice" v-model="rollConfig.normalDicePool">
+            <span class="input-group-text" id="basic-dice">Normal Pool</span>
+            <input type="number" class="form-control" placeholder="mega dice pool" aria-label="mega dice"
+                aria-describedby="mega-dice" v-model="rollConfig.megaDicePool">
+            <span class="input-group-text" id="mega-dice">Mega Pool</span>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-text">
+                <input class="form-check-input" type="checkbox" value="" 
+                aria-label="Checkbox for trait" v-model="rollConfig.qualityActive">
+            </div>
+            <span class="input-group-text" id="mega-dice">Quality Applicable</span>
+            <input type="text" class="form-control" aria-label="Text input with checkbox"
+                v-model="rollConfig.quality">
+
+            <input type="number" class="form-control" placeholder="hopefully 1" aria-label="botch teshhold"
+                aria-describedby="botchTeshhold"  v-model="rollConfig.botchTeshhold">
+            <span class="input-group-text" id="botchTeshhold">Botch Teshhold</span>
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="probably 7" aria-label="target number"
+                aria-describedby="target-number" v-model="rollConfig.targetNumber">
+            <span class="input-group-text" id="target-number">Target Number</span>
+            <input type="number" class="form-control" placeholder="hopefully 1" aria-label="difficulty"
+                aria-describedby="difficulty"  v-model="rollConfig.difficulty">
+            <span class="input-group-text" id="difficulty">Difficulty</span>
+        </div>
+    </div>
+
+    <button 
+        v-on:click="rollDice"
+        >Roll</button>
+
+    <h2>Roll</h2>
+    <div class="container">
+        <div class="row row-cols-auto g-4  justify-content-start" v-if="currentRoll?.dice">
+            <die-view
+            v-for="die in currentRoll.dice"
+            v-bind:die="die"
+            ></die-view>
+        </div>
+    </div>
+
+
+
+    <h2>Past rolls</h2>
+    <div class="container">
+        <roll-view
+            v-for="roll in rollLog"
+            v-bind:roll="roll"
+        ></roll-view>
+    </div>
+
 </div>
