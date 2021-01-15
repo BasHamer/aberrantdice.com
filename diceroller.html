@@ -75,14 +75,11 @@
         </div>
     </div>
 
-    <button 
+    <button class="btn btn-primary btn-lg"
         v-on:click="rollDice"
-        >Roll</button>
-    <button 
-        v-on:click="rerollDice"
-        >Reroll</button>
+        >Roll Dice Pool</button>
 
-    <h2>Roll</h2>
+    <h2 v-if="currentRoll?.dice">Roll Results</h2>
     <div class="container">
         <div class="row row-cols-auto g-4  justify-content-start" v-if="currentRoll?.dice">
             <die-view

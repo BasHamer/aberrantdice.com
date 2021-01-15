@@ -120,14 +120,6 @@ diceRoller.createNewRoll = function(dataModel){
     });
 }
 
-diceRoller.reroll = function(dataModel){
-    if(dataModel.currentRoll?.revealed == false){
-        return;
-    }
-
-
-}
-
 diceRoller.init = function(config){
     const skew = 2;
 
@@ -202,9 +194,6 @@ diceRoller.init = function(config){
                 methods:{
                     rollDice: function() {
                         diceRoller.createNewRoll(dataModel);
-                    },
-                    rerollDice: function() {
-                        diceRoller.reroll(dataModel);
                     }
                 }
             });
