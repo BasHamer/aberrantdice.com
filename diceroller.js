@@ -27,7 +27,7 @@ diceRoller.rollDie = function(die){
 
 diceRoller.evaluateDie = function(dataModel, die){
     die.revealed = true;
-    var delay = new Promise(resolve => setTimeout(resolve, 800));
+    var delay = new Promise(resolve => setTimeout(resolve, dataModel.settings.drama ? 1 : dataModel.settings.duration/2));
     delay.then(function(data){
         die.isSuccess = die.roll >= dataModel.currentRoll.rollConfig.targetNumber;
         die.isBotch = die.roll <= dataModel.currentRoll.rollConfig.botchTeshhold;
@@ -89,7 +89,7 @@ diceRoller.addDie = function(dataModel, isMega){
 
   //var rollDuration = bellRandom(1, dataModel.settings.duration, dataModel.settings.shift)
   var rollDuration =  Math.floor(Math.random() * (dataModel.settings.duration))+1
-  var delay = new Promise(resolve => setTimeout(resolve, rollDuration));
+  var delay = new Promise(resolve => setTimeout(resolve, dataModel.settings.drama ? 1 : rollDuration));
   delay.then(function(data){
       diceRoller.evaluateDie(dataModel, die);
   });
